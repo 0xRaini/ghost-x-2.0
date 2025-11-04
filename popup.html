@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Ghost X 设置</title>
+    <style>
+        body {
+            width: 300px;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f7f9fa;
+            margin: 0;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #1DA1F2;
+            font-size: 20px;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+        
+        .setting-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #14171a;
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background-color: #ccc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .toggle.active {
+            background-color: #1DA1F2;
+        }
+        
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+        
+        .toggle.active::after {
+            transform: translateX(26px);
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #1DA1F2;
+        }
+        
+        .description {
+            font-size: 12px;
+            color: #657786;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+        
+        .status {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .status.enabled {
+            background-color: #e8f5e8;
+            color: #1e7e34;
+        }
+        
+        .status.disabled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 10px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            color: #1DA1F2;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #536471;
+        }
+        
+        .clear-button {
+            width: 100%;
+            background-color: #e0245e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .clear-button:hover {
+            background-color: #c01e4f;
+        }
+
+        /* 可点击统计样式 */
+        .clickable-stat {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .clickable-stat:hover {
+            background-color: #f7f9fa;
+            border-radius: 8px;
+        }
+
+        /* 幽灵动态样式 */
+        .ghost-feed-container {
+            background-color: #f7f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 8px;
+        }
+
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .feed-title {
+            font-weight: bold;
+            color: #14171a;
+            font-size: 14px;
+        }
+
+
+        .refresh-btn {
+            background-color: #1DA1F2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .refresh-btn:hover {
+            background-color: #1991db;
+        }
+
+        .feed-content {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .feed-empty {
+            text-align: center;
+            color: #536471;
+            font-size: 13px;
+            padding: 20px;
+        }
+
+        .feed-item {
+            background-color: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 3px solid #1DA1F2;
+        }
+
+        .feed-item.retweet {
+            border-left-color: #17bf63;
+        }
+
+        .feed-item.like {
+            border-left-color: #e0245e;
+        }
+
+        .feed-item-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .feed-item-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .feed-item-author {
+            font-weight: bold;
+            font-size: 13px;
+            color: #14171a;
+        }
+
+        .feed-item-handle {
+            font-size: 12px;
+            color: #536471;
+            margin-left: 4px;
+        }
+
+        .feed-item-action {
+            font-size: 12px;
+            color: #536471;
+            margin-left: 8px;
+        }
+
+        .feed-item-time {
+            font-size: 11px;
+            color: #536471;
+            margin-top: 4px;
+        }
+
+        .feed-item-content {
+            font-size: 13px;
+            color: #14171a;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        /* 详细查看弹窗样式 */
+        .detail-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        .detail-modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .detail-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .detail-modal-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #14171a;
+        }
+
+        .detail-modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #536471;
+        }
+
+        .detail-modal-close:hover {
+            color: #14171a;
+        }
+
+        .detail-item {
+            padding: 12px;
+            border-bottom: 1px solid #f7f9fa;
+            margin-bottom: 8px;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-item-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .detail-item-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+
+        .detail-item-info {
+            flex: 1;
+        }
+
+        .detail-item-name {
+            font-weight: bold;
+            font-size: 14px;
+            color: #14171a;
+        }
+
+        .detail-item-handle {
+            font-size: 13px;
+            color: #536471;
+            margin-left: 4px;
+        }
+
+        .detail-item-time {
+            font-size: 12px;
+            color: #536471;
+            margin-top: 2px;
+        }
+
+        .detail-item-content {
+            font-size: 14px;
+            color: #14171a;
+            line-height: 1.4;
+            margin-top: 8px;
+        }
+
+        .detail-item-tweet-link {
+            font-size: 12px;
+            color: #1DA1F2;
+            text-decoration: none;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .detail-item-tweet-link:hover {
+            text-decoration: underline;
+        }
+        
+        .group-section {
+            margin-bottom: 15px;
+        }
+        
+        .group-input-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .group-input-container input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #cfd9de;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .create-group-btn, .join-group-btn {
+            background-color: #1DA1F2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .create-group-btn:hover, .join-group-btn:hover {
+            background-color: #1991db;
+        }
+        
+        .current-group {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+        
+        .group-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .group-name {
+            font-weight: bold;
+            color: #1DA1F2;
+        }
+        
+        .group-code {
+            font-family: monospace;
+            background-color: #e1e8ed;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .group-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .copy-btn, .leave-btn {
+            flex: 1;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn {
+            background-color: #17bf63;
+            color: white;
+            border: none;
+        }
+        
+        .copy-btn:hover {
+            background-color: #15a85a;
+        }
+        
+        .leave-btn {
+            background-color: transparent;
+            color: #e0245e;
+            border: 1px solid #e0245e;
+        }
+        
+        .leave-btn:hover {
+            background-color: #ffeef0;
+        }
+        
+        .group-members {
+            margin-top: 10px;
+        }
+        
+        .members-list {
+            max-height: 120px;
+            overflow-y: auto;
+            border: 1px solid #e1e8ed;
+            border-radius: 6px;
+            padding: 8px;
+        }
+        
+        .member-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            border-bottom: 1px solid #f7f9fa;
+        }
+        
+        .member-item:last-child {
+            border-bottom: none;
+        }
+        
+        .member-name {
+            font-size: 14px;
+        }
+        
+        .member-role {
+            font-size: 12px;
+            color: #536471;
+            background-color: #e1e8ed;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .auth-section {
+            margin-bottom: 15px;
+        }
+        
+        .user-info {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #1DA1F2;
+        }
+        
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: bold;
+            color: #14171a;
+            font-size: 14px;
+        }
+        
+        .user-handle {
+            color: #536471;
+            font-size: 12px;
+        }
+        
+        .login-btn, .logout-btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .login-btn {
+            background-color: #1DA1F2;
+            color: white;
+        }
+        
+        .login-btn:hover {
+            background-color: #1991db;
+        }
+        
+        .logout-btn {
+            background-color: #e0245e;
+            color: white;
+        }
+        
+        .logout-btn:hover {
+            background-color: #c01e4f;
+        }
+        
+        .login-description {
+            font-size: 12px;
+            color: #536471;
+            text-align: center;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👻 Ghost X</h1>
+        
+        <div class="setting-group">
+            <label for="ghostModeToggle">幽灵模式</label>
+            <div class="toggle-container">
+                <div class="toggle" id="ghostModeToggle"></div>
+                <span id="toggleLabel">关闭</span>
+            </div>
+            <div class="description">
+                启用后，只有包含指定关键词的推文才会显示
+            </div>
+        </div>
+        
+        <div class="setting-group">
+            <label for="filterKeyword">过滤关键词</label>
+            <input type="text" id="filterKeyword" placeholder="输入要显示的关键词...">
+            <div class="description">
+                只有包含此关键词的推文才会显示（不区分大小写）
+            </div>
+        </div>
+        
+        <div class="status disabled" id="status">
+            幽灵模式已关闭
+        </div>
+        
+        <div class="setting-group">
+            <label>用户登录</label>
+            <div class="auth-section">
+                <div class="user-info" id="userInfoSection" style="display: none;">
+                    <div class="user-profile">
+                        <img id="userAvatar" class="user-avatar" src="" alt="用户头像">
+                        <div class="user-details">
+                            <span class="user-name" id="userName"></span>
+                            <span class="user-handle" id="userHandle"></span>
+                        </div>
+                    </div>
+                    <button id="logoutBtn" class="logout-btn">登出</button>
+                </div>
+                <div class="login-section" id="loginSection">
+                    <button id="loginBtn" class="login-btn">使用 Twitter 登录</button>
+                    <div class="login-description">
+                        登录后可以使用真实的 Twitter 身份进行幽灵回复
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="setting-group">
+            <label>群组管理</label>
+            <div class="group-section">
+                <div class="group-input-container">
+                    <input type="text" id="groupNameInput" placeholder="输入群组名称..." maxlength="20">
+                    <button id="createGroupBtn" class="create-group-btn">创建群组</button>
+                </div>
+                <div class="group-input-container">
+                    <input type="text" id="joinGroupInput" placeholder="输入群组邀请码..." maxlength="8">
+                    <button id="joinGroupBtn" class="join-group-btn">加入群组</button>
+                </div>
+            </div>
+            
+            <div class="current-group" id="currentGroupSection" style="display: none;">
+                <div class="group-info">
+                    <span class="group-name" id="currentGroupName"></span>
+                    <span class="group-code" id="currentGroupCode"></span>
+                </div>
+                <div class="group-actions">
+                    <button id="copyInviteBtn" class="copy-btn">复制邀请码</button>
+                    <button id="leaveGroupBtn" class="leave-btn">离开群组</button>
+                </div>
+            </div>
+            
+            <div class="group-members" id="groupMembersSection" style="display: none;">
+                <label>群组成员</label>
+                <div class="members-list" id="membersList"></div>
+            </div>
+        </div>
+        
+        <div class="setting-group">
+            <label>幽灵回复统计</label>
+            <div class="stats-container">
+                <div class="stat-item clickable-stat" data-type="replies">
+                    <span class="stat-number" id="totalReplies">0</span>
+                    <span class="stat-label">总回复数</span>
+                </div>
+                <div class="stat-item clickable-stat" data-type="replies-today">
+                    <span class="stat-number" id="todayReplies">0</span>
+                    <span class="stat-label">今日回复</span>
+                </div>
+            </div>
+            <button id="clearAllReplies" class="clear-button">清空所有回复</button>
+        </div>
+
+        <div class="setting-group">
+            <label>幽灵转帖统计</label>
+            <div class="stats-container">
+                <div class="stat-item clickable-stat" data-type="retweets">
+                    <span class="stat-number" id="totalRetweets">0</span>
+                    <span class="stat-label">总转帖数</span>
+                </div>
+                <div class="stat-item clickable-stat" data-type="retweets-today">
+                    <span class="stat-number" id="todayRetweets">0</span>
+                    <span class="stat-label">今日转帖</span>
+                </div>
+            </div>
+            <button id="clearAllRetweets" class="clear-button">清空所有转帖</button>
+        </div>
+
+        <div class="setting-group">
+            <label>幽灵收藏统计</label>
+            <div class="stats-container">
+                <div class="stat-item clickable-stat" data-type="likes">
+                    <span class="stat-number" id="totalLikes">0</span>
+                    <span class="stat-label">总收藏数</span>
+                </div>
+                <div class="stat-item clickable-stat" data-type="likes-today">
+                    <span class="stat-number" id="todayLikes">0</span>
+                    <span class="stat-label">今日收藏</span>
+                </div>
+            </div>
+            <button id="clearAllLikes" class="clear-button">清空所有收藏</button>
+        </div>
+
+
+        <div class="setting-group">
+            <label>幽灵动态</label>
+            <div class="ghost-feed-container">
+                <div class="feed-header">
+                    <span class="feed-title">👻 幽灵动态</span>
+                    <button id="refreshFeed" class="refresh-btn">🔄 刷新</button>
+                </div>
+                <div class="feed-content" id="ghostFeed">
+                    <div class="feed-empty">暂无幽灵动态</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 详细查看弹窗 -->
+    <div id="detailModal" class="detail-modal">
+        <div class="detail-modal-content">
+            <div class="detail-modal-header">
+                <div class="detail-modal-title" id="detailModalTitle">详细内容</div>
+                <button class="detail-modal-close" id="detailModalClose">&times;</button>
+            </div>
+            <div id="detailModalBody"></div>
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

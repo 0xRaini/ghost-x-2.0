@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ghost X Icon - 右键保存</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .icon {
+            display: inline-block;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+        <h1>👻 Ghost X 扩展图标</h1>
+        <p>请右键点击下面的图标，选择"图片另存为"来保存图标文件</p>
+        <p>保存时请使用对应的文件名：icon16.png, icon48.png, icon128.png</p>
+    </div>
+    
+    <div>
+        <h3>16x16 图标 (工具栏)</h3>
+        <canvas id="icon16" class="icon" width="16" height="16"></canvas>
+    </div>
+    
+    <div>
+        <h3>48x48 图标 (扩展管理)</h3>
+        <canvas id="icon48" class="icon" width="48" height="48"></canvas>
+    </div>
+    
+    <div>
+        <h3>128x128 图标 (Chrome商店)</h3>
+        <canvas id="icon128" class="icon" width="128" height="128"></canvas>
+    </div>
+    
+    <script>
+        function drawGhostIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            
+            // 背景渐变
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#1DA1F2');
+            gradient.addColorStop(1, '#1991db');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // 幽灵主体
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const radius = size * 0.35;
+            
+            // 幽灵形状
+            ctx.arc(centerX, centerY - size * 0.1, radius, Math.PI, 0, false);
+            ctx.lineTo(centerX + radius, centerY + size * 0.2);
+            
+            // 底部波浪
+            for (let i = 0; i < 3; i++) {
+                const x = centerX + radius - (i * size * 0.15);
+                const y = centerY + size * 0.2;
+                ctx.quadraticCurveTo(x - size * 0.05, y + size * 0.1, x - size * 0.1, y);
+            }
+            
+            ctx.lineTo(centerX - radius, centerY + size * 0.2);
+            ctx.closePath();
+            ctx.fill();
+            
+            // 眼睛
+            ctx.fillStyle = '#1DA1F2';
+            ctx.beginPath();
+            ctx.arc(centerX - size * 0.15, centerY - size * 0.05, size * 0.05, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(centerX + size * 0.15, centerY - size * 0.05, size * 0.05, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 嘴巴
+            ctx.strokeStyle = '#1DA1F2';
+            ctx.lineWidth = Math.max(1, size * 0.02);
+            ctx.beginPath();
+            ctx.arc(centerX, centerY + size * 0.05, size * 0.1, 0, Math.PI);
+            ctx.stroke();
+        }
+        
+        // 绘制所有图标
+        drawGhostIcon(document.getElementById('icon16'), 16);
+        drawGhostIcon(document.getElementById('icon48'), 48);
+        drawGhostIcon(document.getElementById('icon128'), 128);
+    </script>
+</body>
+</html>

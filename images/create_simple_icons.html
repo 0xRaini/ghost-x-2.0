@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>创建Ghost X图标</title>
+</head>
+<body>
+    <h1>Ghost X 图标创建</h1>
+    <p>请打开 images/icon_generator.html 来生成和下载图标文件</p>
+    <p>或者使用下面的简单图标：</p>
+    
+    <div style="display: inline-block; margin: 20px;">
+        <h3>16x16</h3>
+        <canvas id="icon16" width="16" height="16" style="border: 1px solid #ccc;"></canvas>
+    </div>
+    
+    <div style="display: inline-block; margin: 20px;">
+        <h3>48x48</h3>
+        <canvas id="icon48" width="48" height="48" style="border: 1px solid #ccc;"></canvas>
+    </div>
+    
+    <div style="display: inline-block; margin: 20px;">
+        <h3>128x128</h3>
+        <canvas id="icon128" width="128" height="128" style="border: 1px solid #ccc;"></canvas>
+    </div>
+    
+    <script>
+        function createIcon(size) {
+            const canvas = document.getElementById(`icon${size}`);
+            const ctx = canvas.getContext('2d');
+            
+            // 背景
+            ctx.fillStyle = '#1DA1F2';
+            ctx.fillRect(0, 0, size, size);
+            
+            // 幽灵
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(size/2, size/2 - size/8, size/3, Math.PI, 0, false);
+            ctx.lineTo(size/2 + size/3, size/2 + size/4);
+            ctx.lineTo(size/2 - size/3, size/2 + size/4);
+            ctx.closePath();
+            ctx.fill();
+            
+            // 眼睛
+            ctx.fillStyle = '#1DA1F2';
+            ctx.beginPath();
+            ctx.arc(size/2 - size/8, size/2 - size/8, size/16, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(size/2 + size/8, size/2 - size/8, size/16, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 嘴巴
+            ctx.strokeStyle = '#1DA1F2';
+            ctx.lineWidth = Math.max(1, size/32);
+            ctx.beginPath();
+            ctx.arc(size/2, size/2 + size/16, size/8, 0, Math.PI);
+            ctx.stroke();
+        }
+        
+        createIcon(16);
+        createIcon(48);
+        createIcon(128);
+    </script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ghost X Icon Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .icon-container {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+        .icon {
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .icon-16 { width: 16px; height: 16px; }
+        .icon-48 { width: 48px; height: 48px; }
+        .icon-128 { width: 128px; height: 128px; }
+        
+        .ghost-icon {
+            background: linear-gradient(135deg, #1DA1F2, #1991db);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ghost-icon::before {
+            content: '👻';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7em;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+        }
+        
+        .ghost-icon::after {
+            content: '🐦';
+            position: absolute;
+            top: 15%;
+            right: 15%;
+            font-size: 0.3em;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ghost X Extension Icons</h1>
+    <p>这些图标将用于Chrome扩展的不同位置</p>
+    
+    <div class="icon-container">
+        <div class="icon icon-16 ghost-icon"></div>
+        <p>16x16 (工具栏)</p>
+    </div>
+    
+    <div class="icon-container">
+        <div class="icon icon-48 ghost-icon"></div>
+        <p>48x48 (扩展管理)</p>
+    </div>
+    
+    <div class="icon-container">
+        <div class="icon icon-128 ghost-icon"></div>
+        <p>128x128 (Chrome商店)</p>
+    </div>
+    
+    <script>
+        // 生成PNG图标的代码
+        function generateIcon(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // 背景渐变
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#1DA1F2');
+            gradient.addColorStop(1, '#1991db');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // 幽灵主体
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const radius = size * 0.35;
+            
+            // 幽灵形状
+            ctx.arc(centerX, centerY - size * 0.1, radius, Math.PI, 0, false);
+            ctx.lineTo(centerX + radius, centerY + size * 0.2);
+            
+            // 底部波浪
+            for (let i = 0; i < 3; i++) {
+                const x = centerX + radius - (i * size * 0.15);
+                const y = centerY + size * 0.2;
+                ctx.quadraticCurveTo(x - size * 0.05, y + size * 0.1, x - size * 0.1, y);
+            }
+            
+            ctx.lineTo(centerX - radius, centerY + size * 0.2);
+            ctx.closePath();
+            ctx.fill();
+            
+            // 眼睛
+            ctx.fillStyle = '#1DA1F2';
+            ctx.beginPath();
+            ctx.arc(centerX - size * 0.15, centerY - size * 0.05, size * 0.05, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(centerX + size * 0.15, centerY - size * 0.05, size * 0.05, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 嘴巴
+            ctx.strokeStyle = '#1DA1F2';
+            ctx.lineWidth = size * 0.02;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY + size * 0.05, size * 0.1, 0, Math.PI);
+            ctx.stroke();
+            
+            return canvas.toDataURL('image/png');
+        }
+        
+        // 生成并下载图标
+        function downloadIcon(size, filename) {
+            const dataURL = generateIcon(size);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = dataURL;
+            link.click();
+        }
+        
+        // 添加下载按钮
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('body');
+            
+            const download16 = document.createElement('button');
+            download16.textContent = '下载 16x16 图标';
+            download16.onclick = () => downloadIcon(16, 'icon16.png');
+            download16.style.margin = '10px';
+            
+            const download48 = document.createElement('button');
+            download48.textContent = '下载 48x48 图标';
+            download48.onclick = () => downloadIcon(48, 'icon48.png');
+            download48.style.margin = '10px';
+            
+            const download128 = document.createElement('button');
+            download128.textContent = '下载 128x128 图标';
+            download128.onclick = () => downloadIcon(128, 'icon128.png');
+            download128.style.margin = '10px';
+            
+            container.appendChild(document.createElement('br'));
+            container.appendChild(download16);
+            container.appendChild(download48);
+            container.appendChild(download128);
+        });
+    </script>
+</body>
+</html>

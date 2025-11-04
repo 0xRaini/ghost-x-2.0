@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>创建占位图标</title>
+</head>
+<body>
+    <h1>创建Ghost X占位图标</h1>
+    <p>这个页面会创建简单的占位图标文件</p>
+    
+    <canvas id="canvas" width="128" height="128" style="border: 1px solid #ccc;"></canvas>
+    
+    <script>
+        function createIcon(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // 背景
+            ctx.fillStyle = '#1DA1F2';
+            ctx.fillRect(0, 0, size, size);
+            
+            // 幽灵
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(size/2, size/2 - size/8, size/3, Math.PI, 0, false);
+            ctx.lineTo(size/2 + size/3, size/2 + size/4);
+            ctx.lineTo(size/2 - size/3, size/2 + size/4);
+            ctx.closePath();
+            ctx.fill();
+            
+            // 眼睛
+            ctx.fillStyle = '#1DA1F2';
+            ctx.beginPath();
+            ctx.arc(size/2 - size/8, size/2 - size/8, size/16, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(size/2 + size/8, size/2 - size/8, size/16, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 嘴巴
+            ctx.strokeStyle = '#1DA1F2';
+            ctx.lineWidth = Math.max(1, size/32);
+            ctx.beginPath();
+            ctx.arc(size/2, size/2 + size/16, size/8, 0, Math.PI);
+            ctx.stroke();
+            
+            return canvas.toDataURL('image/png');
+        }
+        
+        // 生成并下载图标
+        function downloadIcon(size) {
+            const dataURL = createIcon(size);
+            const link = document.createElement('a');
+            link.download = `icon${size}.png`;
+            link.href = dataURL;
+            link.click();
+        }
+        
+        // 创建预览
+        const preview = createIcon(128);
+        document.getElementById('canvas').getContext('2d').drawImage(
+            new Image().src = preview, 0, 0
+        );
+        
+        // 添加下载按钮
+        const sizes = [16, 48, 128];
+        sizes.forEach(size => {
+            const btn = document.createElement('button');
+            btn.textContent = `下载 icon${size}.png`;
+            btn.onclick = () => downloadIcon(size);
+            btn.style.margin = '10px';
+            document.body.appendChild(btn);
+        });
+    </script>
+</body>
+</html>

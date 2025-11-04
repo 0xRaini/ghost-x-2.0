@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ghost X 图标生成器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .icon-preview {
+            display: inline-block;
+            margin: 20px;
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        canvas {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 10px;
+        }
+        .download-btn {
+            background: #1DA1F2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .download-btn:hover {
+            background: #1991db;
+        }
+        .instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+        <h1>👻 Ghost X 扩展图标生成器</h1>
+        <p>这个页面会生成Ghost X扩展所需的图标文件。</p>
+        <p>点击"下载"按钮保存对应的PNG文件到images文件夹中。</p>
+        <p>文件名应该是：icon16.png, icon48.png, icon128.png</p>
+    </div>
+
+    <div class="icon-preview">
+        <h3>16x16 图标</h3>
+        <canvas id="canvas16" width="16" height="16"></canvas>
+        <br>
+        <button class="download-btn" onclick="downloadIcon(16)">下载 icon16.png</button>
+    </div>
+
+    <div class="icon-preview">
+        <h3>48x48 图标</h3>
+        <canvas id="canvas48" width="48" height="48"></canvas>
+        <br>
+        <button class="download-btn" onclick="downloadIcon(48)">下载 icon48.png</button>
+    </div>
+
+    <div class="icon-preview">
+        <h3>128x128 图标</h3>
+        <canvas id="canvas128" width="128" height="128"></canvas>
+        <br>
+        <button class="download-btn" onclick="downloadIcon(128)">下载 icon128.png</button>
+    </div>
+
+    <script>
+        function drawGhostIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            
+            // 背景圆形
+            ctx.fillStyle = '#1DA1F2';
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2 - 1, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 幽灵主体
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const radius = size * 0.35;
+            
+            // 幽灵上半身
+            ctx.arc(centerX, centerY - size * 0.1, radius, Math.PI, 0, false);
+            
+            // 幽灵下半身（波浪形）
+            ctx.lineTo(centerX + radius, centerY + size * 0.2);
+            
+            // 创建波浪
+            for (let i = 0; i < 3; i++) {
+                const x = centerX + radius - (i * size * 0.15);
+                const y = centerY + size * 0.2;
+                ctx.quadraticCurveTo(x - size * 0.05, y + size * 0.1, x - size * 0.1, y);
+            }
+            
+            ctx.lineTo(centerX - radius, centerY + size * 0.2);
+            ctx.closePath();
+            ctx.fill();
+            
+            // 眼睛
+            ctx.fillStyle = '#1DA1F2';
+            ctx.beginPath();
+            ctx.arc(centerX - size * 0.15, centerY - size * 0.05, size * 0.05, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(centerX + size * 0.15, centerY - size * 0.05, size * 0.05, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 嘴巴
+            ctx.strokeStyle = '#1DA1F2';
+            ctx.lineWidth = Math.max(1, size * 0.02);
+            ctx.beginPath();
+            ctx.arc(centerX, centerY + size * 0.05, size * 0.1, 0, Math.PI);
+            ctx.stroke();
+        }
+
+        function downloadIcon(size) {
+            const canvas = document.getElementById(`canvas${size}`);
+            const link = document.createElement('a');
+            link.download = `icon${size}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // 绘制所有图标
+        drawGhostIcon(document.getElementById('canvas16'), 16);
+        drawGhostIcon(document.getElementById('canvas48'), 48);
+        drawGhostIcon(document.getElementById('canvas128'), 128);
+    </script>
+</body>
+</html>

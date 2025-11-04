@@ -1,513 +1,429 @@
-# Ghost X 2.0 - Twitter 幽灵模式扩展
+# Ghost X 2.0
 
-## 💡 项目初衷
+> A parallel, user-controlled distribution layer for Twitter/X
 
-在当今的社交媒体时代，我们越来越意识到一个问题：**内容分发的控制权完全掌握在平台手中**。
+**[中文文档](README.zh-CN.md)** | **[Documentation](本地预览指南.md)** | **[Changelog](CHANGELOG.md)**
 
-算法决定了什么内容会被推送给你，你的声音能被多少人听到，甚至你能看到什么、不能看到什么。这种中心化的控制模式让用户逐渐失去了对自己社交体验的掌控。
-
-Ghost X 的诞生，源于一个简单而大胆的想法：
-
-> **如果我们能创建一个平行的、由用户自己控制的分发层会怎样？**
-
-想象一下：
-- 你可以在公开时间线之外，与志同道合的朋友进行"幽灵对话"
-- 你可以建立专属的小圈子，分享只有圈内人可见的想法
-- 你可以自由地过滤内容，不受算法的干扰
-- 你的互动数据完全存储在本地，不被平台追踪和分析
-
-这不是要对抗平台，而是**在平台之上构建一层用户自治的社交网络**。就像"幽灵"一样，它存在于原有系统中，却拥有独立的运行逻辑。
-
-Ghost X 是对去中心化社交网络理念的一次实验性探索，也是对"用户应该拥有自己数据和社交关系"这一信念的实践。
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-blue.svg)](https://developer.chrome.com/docs/extensions/)
+[![Manifest V3](https://img.shields.io/badge/Manifest-V3-green.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 
 ---
 
-## 🎯 项目概述
+## 💡 Project Vision
 
-Ghost X 是一个创新的 Chrome 扩展，为 Twitter/X 提供一个平行的、由用户控制的分发层。它允许用户在 Twitter 上创建"幽灵"内容，这些内容只有安装了此扩展的用户才能看到，实现了真正的去中心化社交媒体体验。
+In today's social media landscape, **content distribution control is entirely in the hands of platforms**.
 
-### 核心理念
-- **用户主权**：你的数据，你做主
-- **去中心化**：不依赖平台服务器，点对点交互
-- **隐私优先**：所有数据本地存储，不上传任何服务器
-- **开源透明**：代码完全开源，接受社区监督
-- **自由交流**：创建不受算法干扰的私密社交空间
+Algorithms decide what content gets pushed to you, how many people hear your voice, and even what you can or cannot see. This centralized control model has gradually stripped users of control over their own social experience.
 
----
+Ghost X was born from a simple yet bold idea:
 
-## 🌟 为什么选择 Ghost X
+> **What if we could create a parallel distribution layer controlled by users themselves?**
 
-### 与其他方案的对比
+Imagine:
+- Having "ghost conversations" with like-minded friends outside the public timeline
+- Building exclusive circles where you share thoughts visible only to members
+- Freely filtering content without algorithmic interference
+- Keeping all interaction data stored locally, untracked and unanalyzed by platforms
 
-| 特性 | Ghost X | 传统社交媒体 | Mastodon/去中心化平台 |
-|------|---------|--------------|----------------------|
-| **数据控制权** | ✅ 完全本地 | ❌ 平台拥有 | ✅ 服务器端控制 |
-| **算法透明** | ✅ 无算法干扰 | ❌ 黑盒算法 | ✅ 时间线透明 |
-| **迁移成本** | ✅ 零成本（在现有平台使用） | ❌ 高（需要迁移关系链） | ⚠️ 中等（需要建立新账号） |
-| **用户基础** | ✅ 基于现有 Twitter 用户 | ✅ 庞大 | ⚠️ 相对小众 |
-| **技术门槛** | ✅ 一键安装 | ✅ 简单 | ⚠️ 需要选择服务器 |
-| **隐私保护** | ✅ 本地加密 | ❌ 数据收集 | ✅ 服务器端加密 |
-| **内容审查** | ✅ 用户自定义 | ❌ 平台规则 | ⚠️ 服务器规则 |
+This isn't about fighting platforms—it's about **building a user-autonomous social network layer on top of existing platforms**. Like a "ghost," it exists within the original system yet operates with independent logic.
 
-### Ghost X 的独特优势
-
-**🎯 无缝集成**
-- 不需要离开 Twitter，在现有平台上就能使用
-- 保持原有的社交关系网络
-- 同时享受公开和私密两种社交体验
-
-**🔒 隐私至上**
-- 所有幽灵内容完全本地存储
-- 不依赖任何中心化服务器
-- 不收集、不上传任何用户数据
-
-**👥 社群驱动**
-- 群组功能让你建立专属社交圈
-- 邀请码机制确保成员质量
-- 只有安装扩展的用户才能参与幽灵互动
-
-**⚡ 零学习成本**
-- 界面完全模仿 Twitter 原生体验
-- 熟悉的交互方式，无需重新学习
-- 一键安装，即刻使用
-
-**🛠️ 可扩展性**
-- 开源代码，社区可以自由贡献
-- 模块化设计，易于添加新功能
-- 未来可支持更多社交平台
+Ghost X is an experimental exploration of decentralized social networking and a practice of the belief that "users should own their data and social relationships."
 
 ---
 
-## ✨ 核心功能
+## 🎯 Overview
 
-### 1. 🔍 幽灵模式过滤
-- **智能过滤**：只显示包含指定关键词的推文
-- **实时生效**：设置变更立即应用到当前页面
-- **不区分大小写**：支持模糊匹配
-- **状态指示**：清晰显示当前过滤状态
+Ghost X is an innovative Chrome extension that provides a parallel, user-controlled distribution layer for Twitter/X. It allows users to create "ghost" content on Twitter that's only visible to other extension users, achieving true decentralized social media experience.
 
-### 2. 💬 幽灵回复系统
-- **私密回复**：在推文下方添加只有插件用户可见的回复
-- **280字符限制**：完全兼容Twitter字符限制
-- **实时计数**：动态显示字符使用情况
-- **身份支持**：支持匿名、Twitter身份、群组身份回复
-- **时间显示**：智能相对时间显示（如"2分钟前"）
-- **删除管理**：支持删除单条回复
-- **统计功能**：查看回复总数和今日回复数
+### Core Principles
+- **User Sovereignty**: Your data, your control
+- **Decentralization**: No reliance on platform servers, peer-to-peer interaction
+- **Privacy First**: All data stored locally, nothing uploaded to servers
+- **Open & Transparent**: Fully open-source, community-audited code
+- **Free Communication**: Create private social spaces free from algorithmic interference
 
-### 3. 🔄 幽灵转帖功能
-- **虚拟转帖**：在幽灵层进行转帖操作，不实际转帖到Twitter
-- **身份标识**：显示转帖者信息和群组归属
-- **统计管理**：查看转帖总数和今日转帖数
-- **批量清理**：支持清空所有转帖记录
+---
 
-### 4. ❤️ 幽灵收藏功能
-- **虚拟收藏**：在幽灵层进行收藏操作，不实际收藏到Twitter
-- **身份标识**：显示收藏者信息和群组归属
-- **统计管理**：查看收藏总数和今日收藏数
-- **批量清理**：支持清空所有收藏记录
+## 🌟 Why Choose Ghost X
 
-### 5. 👤 Twitter身份登录
-- **一键登录**：模拟Twitter登录流程
-- **用户资料**：显示用户名、头像、认证状态
-- **身份回复**：登录后幽灵回复显示真实Twitter身份
-- **登出功能**：随时可以登出当前账户
+### Comparison with Other Solutions
 
-### 6. 👥 群组管理系统
-- **创建群组**：输入群组名称即可创建
-- **加入群组**：使用6位邀请码加入群组
-- **邀请码系统**：自动生成唯一邀请码
-- **成员管理**：显示群组成员列表和角色
-- **群组回复**：群组内成员可以看到彼此的幽灵回复
-- **权限管理**：管理员和成员角色区分
+| Feature | Ghost X | Traditional Social Media | Mastodon/Decentralized Platforms |
+|---------|---------|--------------------------|----------------------------------|
+| **Data Control** | ✅ Fully Local | ❌ Platform Owned | ✅ Server-side Control |
+| **Algorithm Transparency** | ✅ No Algorithm | ❌ Black Box | ✅ Transparent Timeline |
+| **Migration Cost** | ✅ Zero (Use on existing platform) | ❌ High (Need to migrate social graph) | ⚠️ Medium (New account required) |
+| **User Base** | ✅ Existing Twitter users | ✅ Massive | ⚠️ Relatively niche |
+| **Technical Barrier** | ✅ One-click install | ✅ Simple | ⚠️ Server selection required |
+| **Privacy Protection** | ✅ Local encryption | ❌ Data collection | ✅ Server-side encryption |
+| **Content Moderation** | ✅ User-defined | ❌ Platform rules | ⚠️ Server rules |
 
-- **热门作者**：识别最常浏览的作者
-- **智能洞察**：基于浏览行为生成个性化洞察
-- **时间范围**：显示分析的时间段信息
+### Ghost X's Unique Advantages
 
-### 8. 📊 数据统计与管理
-- **实时统计**：显示回复、转帖、收藏的总数和今日数量
-- **详细查看**：点击统计数字查看详细内容
-- **批量管理**：支持清空所有数据
-- **数据导出**：所有数据保存在本地Chrome存储中
+**🎯 Seamless Integration**
+- No need to leave Twitter—use it directly on the existing platform
+- Maintain your existing social network
+- Enjoy both public and private social experiences simultaneously
 
-### 8. 🔔 智能通知系统
-- **操作反馈**：成功/失败的即时通知
-- **状态提示**：清晰的操作状态指示
-- **错误处理**：友好的错误信息提示
+**🔒 Privacy First**
+- All ghost content stored completely locally
+- No reliance on any centralized servers
+- No data collection or uploads whatsoever
 
-## 🚀 安装指南
+**👥 Community-Driven**
+- Group feature lets you build exclusive social circles
+- Invite code mechanism ensures member quality
+- Only extension users can participate in ghost interactions
 
-### 前置要求
-- Chrome 浏览器（支持Manifest V3）
-- Twitter/X 网站访问权限
+**⚡ Zero Learning Curve**
+- Interface perfectly mimics Twitter's native experience
+- Familiar interaction patterns, no relearning required
+- One-click install, instant use
 
-### 安装步骤
+**🛠️ Extensibility**
+- Open-source code, community contributions welcome
+- Modular design, easy to add new features
+- Future support for more social platforms
 
-1. **下载项目**
+---
+
+## ✨ Core Features
+
+### 1. 🔍 Ghost Mode Filtering
+- **Smart Filtering**: Display only tweets containing specified keywords
+- **Real-time Application**: Settings apply instantly to current page
+- **Case Insensitive**: Supports fuzzy matching
+- **Status Indicator**: Clear display of current filter status
+
+### 2. 💬 Ghost Reply System
+- **Private Replies**: Add replies under tweets visible only to extension users
+- **280 Character Limit**: Fully compatible with Twitter's character limit
+- **Live Counter**: Real-time display of character usage
+- **Identity Support**: Support for anonymous, Twitter identity, or group identity replies
+- **Time Display**: Smart relative time display (e.g., "2 minutes ago")
+- **Delete Management**: Support for deleting individual replies
+- **Statistics**: View total reply count and today's reply count
+
+### 3. 🔄 Ghost Retweet Feature
+- **Virtual Retweets**: Retweet operations in ghost layer without actually retweeting on Twitter
+- **Identity Display**: Shows retweeter info and group affiliation
+- **Statistics Management**: View total and daily retweet counts
+- **Batch Clear**: Support for clearing all retweet records
+
+### 4. ❤️ Ghost Like Feature
+- **Virtual Likes**: Like operations in ghost layer without actually liking on Twitter
+- **Identity Display**: Shows liker info and group affiliation
+- **Statistics Management**: View total and daily like counts
+- **Batch Clear**: Support for clearing all like records
+
+### 5. 👤 Twitter Identity Login
+- **One-click Login**: Simulated Twitter login process
+- **User Profile**: Display username, avatar, and verification status
+- **Identity Replies**: Ghost replies show real Twitter identity after login
+- **Logout Function**: Can log out current account at any time
+
+### 6. 👥 Group Management System
+- **Create Groups**: Enter group name to create
+- **Join Groups**: Use 6-digit invite code to join groups
+- **Invite Code System**: Automatically generates unique invite codes
+- **Member Management**: Display group member list and roles
+- **Group Replies**: Group members can see each other's ghost replies
+- **Permission Management**: Admin and member role distinction
+
+### 7. 📊 Data Statistics & Management
+- **Real-time Stats**: Display total and daily counts for replies, retweets, and likes
+- **Detailed View**: Click stats numbers to view detailed content
+- **Batch Management**: Support for clearing all data
+- **Data Export**: All data saved in local Chrome storage
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Chrome Browser (supporting Manifest V3)
+- Access to Twitter/X website
+
+### Installation
+
+1. **Download the project**
    ```bash
-   git clone [项目地址]
-   cd "Ghost X 2.0"
+   git clone https://github.com/0xRaini/ghost-x-2.0.git
+   cd ghost-x-2.0
    ```
 
-2. **生成图标文件**（重要）
-   - 打开 `images/icon_generator.html` 文件
-   - 在浏览器中生成并下载图标文件
-   - 确保 `icon16.png`, `icon48.png`, `icon128.png` 保存在 `images/` 目录中
+2. **Load the extension**
+   - Open Chrome browser
+   - Go to `chrome://extensions/`
+   - Enable "Developer mode"
+   - Click "Load unpacked extension"
+   - Select the project folder
 
-3. **安装扩展**
-   - 打开 Chrome 浏览器
-   - 进入 `chrome://extensions/`
-   - 开启"开发者模式"
-   - 点击"加载已解压的扩展程序"
-   - 选择项目文件夹
+3. **Verify installation**
+   - Check if Ghost X icon appears in browser toolbar
+   - Visit Twitter/X website to test features
 
-4. **验证安装**
-   - 检查浏览器工具栏是否出现Ghost X图标
-   - 访问 Twitter/X 网站测试功能
+---
 
-## 📖 使用教程
+## 📖 Usage Guide
 
-### 🔍 幽灵模式过滤
+### Ghost Mode Filtering
 
-1. 点击浏览器工具栏中的 Ghost X 图标
-2. 开启"幽灵模式"开关
-3. 在"过滤关键词"输入框中输入要显示的关键词
-4. 只有包含该关键词的推文才会显示
-5. 关闭幽灵模式可显示所有推文
+1. Click the Ghost X icon in browser toolbar
+2. Toggle "Ghost Mode" switch
+3. Enter filtering keyword in "Filter Keyword" input box
+4. Only tweets containing that keyword will be displayed
+5. Disable ghost mode to display all tweets
 
-### 💬 幽灵回复功能
+### Ghost Reply Feature
 
-1. 在任意推文下方找到"👻 幽灵回复 (仅插件用户可见)"区域
-2. 在文本框中输入回复内容（最多280字符）
-3. 实时查看字符计数
-4. 点击"发送"按钮发布回复
-5. 点击"清空"按钮清空输入框
-6. 在回复列表中点击"删除"可删除单条回复
+1. Find "👻 Ghost Reply (Extension users only)" area under any tweet
+2. Enter reply content in text box (max 280 characters)
+3. View real-time character count
+4. Click "Send" button to publish reply
+5. Click "Clear" button to clear input box
+6. Click "Delete" in reply list to remove individual replies
 
-### 🔄 幽灵转帖功能
+### Ghost Retweet Feature
 
-1. 在幽灵回复区域点击"🔄 幽灵转帖"按钮
-2. 转帖操作会保存到本地
-3. 转帖记录显示在推文下方的"🔄 幽灵转帖"区域
-4. 支持Twitter身份和群组身份转帖
+1. Click "🔄 Ghost Retweet" button in ghost reply area
+2. Retweet operation saved locally
+3. Retweet records displayed in "🔄 Ghost Retweets" area under tweet
+4. Supports Twitter identity and group identity retweets
 
-### ❤️ 幽灵收藏功能
+### Ghost Like Feature
 
-1. 在幽灵回复区域点击"❤️ 幽灵收藏"按钮
-2. 收藏操作会保存到本地
-3. 收藏记录显示在推文下方的"❤️ 幽灵收藏"区域
-4. 支持Twitter身份和群组身份收藏
+1. Click "❤️ Ghost Like" button in ghost reply area
+2. Like operation saved locally
+3. Like records displayed in "❤️ Ghost Likes" area under tweet
+4. Supports Twitter identity and group identity likes
 
-### 👤 Twitter登录功能
+### Group Feature
 
-1. 在popup界面点击"使用 Twitter 登录"按钮
-2. 等待登录完成（当前为模拟登录）
-3. 登录后显示用户头像、姓名和用户名
-4. 幽灵回复会显示真实的Twitter身份
-5. 点击"登出"按钮可退出登录
+**Creating a Group**
+1. Enter group name in popup interface
+2. Click "Create Group" button
+3. System generates 6-digit invite code
 
-### 👥 群组功能
+**Joining a Group**
+1. Enter 6-digit invite code
+2. Click "Join Group" button
+3. Group info displayed after successful join
 
-1. **创建群组**
-   - 在popup界面输入群组名称
-   - 点击"创建群组"按钮
-   - 系统会生成6位邀请码
+**Group Management**
+- View group member list
+- Copy invite code to share with other users
+- Click "Leave Group" to exit group
 
-2. **加入群组**
-   - 输入6位邀请码
-   - 点击"加入群组"按钮
-   - 成功加入后显示群组信息
+---
 
-3. **群组管理**
-   - 查看群组成员列表
-   - 复制邀请码分享给其他用户
-   - 点击"离开群组"退出群组
-
-
-## 🏗️ 项目结构
+## 🏗️ Project Structure
 
 ```
-Ghost X 2.0/
-├── manifest.json              # 扩展配置文件 (Manifest V3)
-├── content.js                 # 内容脚本 - 核心功能逻辑 (1,300+ 行)
-├── popup.html                 # 弹出窗口界面
-├── popup.js                   # 弹出窗口逻辑 (933 行)
-├── images/                    # 图标资源目录
-│   ├── icon16.png            # 16x16 图标 ✅
-│   ├── icon48.png            # 48x48 图标 ✅
-│   ├── icon128.png           # 128x128 图标 ✅
-│   └── icon.svg              # SVG 矢量图标
-├── archive/                   # 归档文件（开发过程产物）
-│   ├── backup-files/         # 备份文件
-│   └── old-versions/         # 旧版本
-├── .gitignore                # Git 忽略规则
-├── README.md                 # 项目说明文档（本文件）
-├── 本地预览指南.md           # 开发和调试指南
-└── 图标生成说明.md           # 图标生成说明
+ghost-x-2.0/
+├── manifest.json              # Extension config (Manifest V3)
+├── content.js                 # Content script - Core functionality (1,300+ lines)
+├── popup.html                 # Popup interface
+├── popup.js                   # Popup logic (933 lines)
+├── images/                    # Icon resources
+│   ├── icon16.png            # 16x16 icon ✅
+│   ├── icon48.png            # 48x48 icon ✅
+│   ├── icon128.png           # 128x128 icon ✅
+│   └── icon.svg              # SVG vector icon
+├── .gitignore                # Git ignore rules
+├── LICENSE                   # MIT License
+├── README.md                 # This file
+├── README.zh-CN.md           # Chinese documentation
+└── CHANGELOG.md              # Version history
 ```
 
-### 核心文件说明
+### Core Files
 
 **manifest.json**
-- Chrome 扩展配置清单
-- 定义权限、内容脚本、图标等
-- 使用 Manifest V3 最新标准
+- Chrome extension configuration manifest
+- Defines permissions, content scripts, icons, etc.
+- Uses Manifest V3 latest standard
 
-**content.js** (核心)
-- 注入到 Twitter/X 页面的内容脚本
-- 包含所有幽灵功能的实现逻辑
-- 使用 MutationObserver 实时监听页面变化
-- 主要模块：
-  - 推文处理与过滤
-  - 幽灵回复系统
-  - 幽灵转发/收藏
-  - 数据存储与验证
-  - 错误处理
+**content.js** (Core)
+- Content script injected into Twitter/X pages
+- Contains all ghost feature implementation logic
+- Uses MutationObserver for real-time page change monitoring
+- Main modules:
+  - Tweet processing & filtering
+  - Ghost reply system
+  - Ghost retweet/like
+  - Data storage & validation
+  - Error handling
 
 **popup.html / popup.js**
-- 扩展弹窗界面及其逻辑
-- 设置管理
-- 统计数据显示
-- 群组管理
-- 用户认证
-
-## 🔧 技术特性
-
-### 核心技术栈
-- **Manifest V3**：使用最新的Chrome扩展标准
-- **Chrome Storage API**：本地数据存储和管理
-- **MutationObserver**：实时DOM变化监听
-- **Chrome Identity API**：用户身份管理
-- **OAuth 2.0**：安全的身份认证流程
-- **文本分析算法**：智能话题提取和情感分析
-- **数据挖掘技术**：用户行为模式识别
-
-### 架构特点
-- **响应式设计**：适配不同屏幕尺寸
-- **模块化架构**：功能模块独立，易于维护
-- **异步处理**：非阻塞的用户体验
-- **错误处理**：完善的错误处理机制
-- **数据持久化**：本地存储，数据安全
-
-### 性能优化
-- **懒加载**：按需加载功能模块
-- **防重复处理**：避免重复处理相同推文
-- **内存管理**：及时清理不需要的数据
-- **缓存机制**：智能缓存提升性能
-
-## 🐛 已知问题
-
-### 当前版本问题
-1. **幽灵模式开关**：选择器错误导致开关无法正常工作
-2. **群组功能**：部分ID不匹配导致功能异常
-3. **Twitter登录**：当前为模拟登录，未实现真实OAuth
-
-### 修复状态
-- ✅ 异步函数竞态条件已修复
-- ✅ 状态显示样式已优化
-- ❌ DOM选择器问题待修复
-- ❌ 群组功能ID不匹配待修复
-
-## 🔮 未来计划
-
-### 短期目标
-- [ ] 修复所有DOM选择器问题
-- [ ] 实现真正的Twitter OAuth登录
-- [ ] 优化用户界面体验
-
-### 长期目标
-- [ ] 支持更多社交媒体平台
-- [ ] 添加云端同步功能
-- [ ] 实现跨设备数据同步
-- [ ] 开发移动端应用
-
-## 📊 版本历史
-
-### v2.0.2 (当前版本)
-- 🔧 修复统计功能失灵问题
-- 🔐 修复重复登录问题
-- 🗑️ 移除复杂的信息流总结功能
-- 📱 优化幽灵动态，整合所有操作（回复、转帖、收藏）
-- 🎨 改进幽灵动态界面设计和用户体验
-- 🔧 修复异步函数竞态条件问题
-- 🎨 优化状态显示样式
-- 📝 完善错误处理机制
-
-### v2.0.0
-- ✨ 新增幽灵回复增强功能
-- 👥 新增群组管理系统
-- 👤 新增Twitter登录功能
-- 🔄 新增幽灵转帖功能
-- ❤️ 新增幽灵收藏功能
-- 📊 新增数据统计功能
-- 🔔 新增智能通知系统
-
-### v1.0.0
-- 🔍 基础幽灵模式过滤功能
-- 💬 基础幽灵回复功能
-- 🎨 基础用户界面
-
-## 🛠️ 开发指南
-
-### 环境要求
-- Chrome 浏览器 88+
-- 基本的HTML/CSS/JavaScript知识
-- Chrome扩展开发经验（推荐）
-
-### 开发流程
-1. 克隆项目到本地
-2. 在Chrome中加载扩展
-3. 修改代码后刷新扩展
-4. 在Twitter/X网站测试功能
-
-### 调试方法
-- 使用Chrome开发者工具
-- 查看控制台输出
-- 检查Chrome扩展页面
-- 使用Chrome Storage Inspector
-
-## 📄 许可证
-
-此项目仅供学习和研究使用。请遵守相关法律法规和平台服务条款。
-
-## 🤝 贡献指南
-
-欢迎提交Issue和Pull Request来改进这个项目！
-
-### 贡献方式
-1. Fork 项目
-2. 创建功能分支
-3. 提交更改
-4. 发起 Pull Request
-
-### 代码规范
-- 使用有意义的变量名
-- 添加必要的注释
-- 遵循现有的代码风格
-- 确保代码可读性
-
-## 🚀 未来愿景
-
-Ghost X 不仅仅是一个浏览器扩展，它代表着我们对未来社交网络的想象。
-
-### 短期目标（3-6个月）
-- ✅ 完善核心功能的稳定性
-- 🔄 实现真实的 Twitter OAuth 认证
-- 🌐 构建去中心化的数据同步协议
-- 🔐 实现端到端加密通信
-- 📱 优化移动端兼容性
-
-### 中期目标（6-12个月）
-- 🌍 支持更多社交平台（Mastodon, Bluesky, Threads）
-- 🤝 建立跨平台幽灵网络
-- 🔗 开发去中心化身份认证系统（DID）
-- 💼 创建社区治理机制
-- 📊 开发数据分析和洞察工具
-
-### 长期愿景
-- 🌐 **构建真正的去中心化社交协议**
-  - 不依赖任何单一平台
-  - 用户完全拥有自己的数据
-  - 跨平台无缝互通
-
-- 🔓 **推动社交媒体民主化**
-  - 打破算法的垄断控制
-  - 让内容分发权回归用户
-  - 创建真正开放的社交生态
-
-- 🤝 **培育健康的社区文化**
-  - 小圈子内的深度交流
-  - 减少信息茧房效应
-  - 促进理性讨论和思想交流
+- Extension popup interface and logic
+- Settings management
+- Statistics display
+- Group management
+- User authentication
 
 ---
 
-## 🤝 加入我们
+## 🔧 Technical Features
 
-Ghost X 是一个社区驱动的开源项目，我们欢迎所有形式的贡献！
+### Tech Stack
+- **Manifest V3**: Latest Chrome extension standard
+- **Chrome Storage API**: Local data storage and management
+- **MutationObserver**: Real-time DOM change monitoring
+- **Chrome Identity API**: User identity management
+- **OAuth 2.0**: Secure authentication process
 
-### 如何参与
+### Architecture
+- **Responsive Design**: Adapts to different screen sizes
+- **Modular Architecture**: Independent feature modules, easy to maintain
+- **Async Processing**: Non-blocking user experience
+- **Error Handling**: Comprehensive error handling mechanisms
+- **Data Persistence**: Local storage, data security
 
-**🐛 报告问题**
-- 在 [GitHub Issues](https://github.com/0xRain/ghost-x-2.0/issues) 提交 bug 报告
-- 详细描述问题和复现步骤
-- 附上浏览器版本和错误截图
-
-**💡 提出建议**
-- 分享你对功能的想法和建议
-- 参与功能讨论和投票
-- 帮助完善产品路线图
-
-**👨‍💻 贡献代码**
-1. Fork 本仓库
-2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
-
-**📖 完善文档**
-- 改进 README 和使用文档
-- 翻译成其他语言
-- 编写教程和最佳实践
-
-**🎨 设计贡献**
-- 改进 UI/UX 设计
-- 创建宣传素材
-- 设计图标和视觉元素
-
-### 代码规范
-- 遵循现有代码风格
-- 添加必要的注释（中英文均可）
-- 确保新功能有完整的错误处理
-- 测试后再提交
+### Performance Optimization
+- **Lazy Loading**: Load feature modules on demand
+- **Duplicate Prevention**: Avoid processing same tweets repeatedly
+- **Memory Management**: Timely cleanup of unnecessary data
+- **Caching Mechanism**: Smart caching improves performance
 
 ---
 
-## 📞 联系方式
+## 🐛 Known Issues
 
-### 项目链接
-- **GitHub 仓库**: [github.com/0xRain/ghost-x-2.0](https://github.com/0xRain/ghost-x-2.0)
-- **问题反馈**: [GitHub Issues](https://github.com/0xRain/ghost-x-2.0/issues)
-- **讨论社区**: [GitHub Discussions](https://github.com/0xRain/ghost-x-2.0/discussions)
+### Current Version Issues
+1. **Ghost Mode Toggle**: Selector errors causing toggle malfunction
+2. **Group Features**: Some ID mismatches causing feature anomalies
+3. **Twitter Login**: Currently simulated login, real OAuth not implemented
 
-### 开发团队
-- **项目发起人**: [@0xRain](https://github.com/0xRain)
-- **核心贡献者**: 期待你的加入！
-
-### 相关资源
-- **开发文档**: 查看 [本地预览指南.md](本地预览指南.md)
-- **变更日志**: 查看 [CHANGELOG.md](CHANGELOG.md)（待创建）
-- **贡献指南**: 查看 [CONTRIBUTING.md](CONTRIBUTING.md)（待创建）
+### Fix Status
+- ✅ Async function race conditions fixed
+- ✅ Status display styling optimized
+- ❌ DOM selector issues pending fix
+- ❌ Group feature ID mismatches pending fix
 
 ---
 
-## 📄 许可证
+## 🚀 Future Vision
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
+Ghost X is more than just a browser extension—it represents our vision for the future of social networking.
 
-### 免责声明
-- 此项目仅供学习和研究使用
-- 使用前请确保遵守相关法律法规和平台服务条款
-- 开发者不对使用本扩展造成的任何后果负责
-- Twitter/X 是 Twitter, Inc. 的商标，本项目与其无任何官方关联
+### Short-term Goals (3-6 months)
+- ✅ Perfect core feature stability
+- 🔄 Implement real Twitter OAuth authentication
+- 🌐 Build decentralized data sync protocol
+- 🔐 Implement end-to-end encryption
+- 📱 Optimize mobile compatibility
+
+### Medium-term Goals (6-12 months)
+- 🌍 Support more social platforms (Mastodon, Bluesky, Threads)
+- 🤝 Establish cross-platform ghost network
+- 🔗 Develop decentralized identity system (DID)
+- 💼 Create community governance mechanism
+- 📊 Develop data analysis and insights tools
+
+### Long-term Vision
+- 🌐 **Build truly decentralized social protocol**
+  - No reliance on any single platform
+  - Users fully own their data
+  - Seamless cross-platform interoperability
+
+- 🔓 **Promote social media democratization**
+  - Break algorithmic monopoly control
+  - Return content distribution rights to users
+  - Create truly open social ecosystem
+
+- 🤝 **Foster healthy community culture**
+  - Deep communication within small circles
+  - Reduce filter bubble effects
+  - Promote rational discussion and thought exchange
 
 ---
 
-## 💭 最后的话
+## 🤝 Join Us
 
-Ghost X 是一次实验，也是一次探索。
+Ghost X is a community-driven open-source project. We welcome all forms of contributions!
 
-我们相信，**社交媒体不应该由少数几家公司垄断控制**。每个人都应该拥有选择的权利：选择看什么内容，选择与谁交流，选择如何管理自己的数据。
+### How to Participate
 
-这个项目可能不完美，可能会遇到很多挑战，但我们相信这个方向是正确的。
+**🐛 Report Issues**
+- Submit bug reports on [GitHub Issues](https://github.com/0xRaini/ghost-x-2.0/issues)
+- Describe problems and reproduction steps in detail
+- Include browser version and error screenshots
 
-如果你也认同这些理念，欢迎加入我们，一起构建一个更加开放、自由、用户友好的社交网络。
+**💡 Suggest Features**
+- Share your ideas and suggestions
+- Participate in feature discussions and voting
+- Help improve product roadmap
 
-**让我们一起，做社交媒体的幽灵。** 👻
+**👨‍💻 Contribute Code**
+1. Fork this repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
+
+**📖 Improve Documentation**
+- Improve README and usage docs
+- Translate into other languages
+- Write tutorials and best practices
+
+**🎨 Design Contributions**
+- Improve UI/UX design
+- Create promotional materials
+- Design icons and visual elements
+
+### Code Standards
+- Follow existing code style
+- Add necessary comments (English or Chinese)
+- Ensure new features have complete error handling
+- Test before submitting
 
 ---
 
-**最后更新**: 2024年11月
-**当前版本**: v2.0.2
-**项目状态**: 🚧 活跃开发中
+## 📞 Contact
+
+### Project Links
+- **GitHub Repository**: [github.com/0xRaini/ghost-x-2.0](https://github.com/0xRaini/ghost-x-2.0)
+- **Issue Tracker**: [GitHub Issues](https://github.com/0xRaini/ghost-x-2.0/issues)
+- **Discussion Forum**: [GitHub Discussions](https://github.com/0xRaini/ghost-x-2.0/discussions)
+
+### Development Team
+- **Project Creator**: [@0xRain](https://github.com/0xRain)
+- **Core Contributors**: We're waiting for you to join!
+
+### Resources
+- **Development Guide**: See [本地预览指南.md](本地预览指南.md)
+- **Changelog**: See [CHANGELOG.md](CHANGELOG.md)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### Disclaimer
+- This project is for learning and research purposes only
+- Please comply with relevant laws and platform terms of service
+- Developers are not responsible for any consequences of using this extension
+- Twitter/X is a trademark of Twitter, Inc. This project has no official affiliation
+
+---
+
+## 💭 Final Words
+
+Ghost X is an experiment and an exploration.
+
+We believe that **social media should not be monopolized and controlled by a few companies**. Everyone should have the right to choose: what content to see, who to communicate with, and how to manage their own data.
+
+This project may not be perfect and may face many challenges, but we believe this direction is right.
+
+If you also agree with these principles, welcome to join us in building a more open, free, and user-friendly social network.
+
+**Let's be the ghosts of social media together.** 👻
+
+---
+
+**Last Updated**: November 2024
+**Current Version**: v2.0.3
+**Status**: 🚧 Active Development
